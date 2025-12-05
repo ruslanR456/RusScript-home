@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Website Reviews</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    .rating-box {
+      background: #fff;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      margin-bottom: 20px;
+    }
+    .stars {
+      font-size: 32px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .star-item { padding: 6px; }
+    .comment-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: none;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #0077ff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fcc;
+    }
+    .reviews {
+      margin-top: 20px;
+    }
+    .review-item {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.12);
+      margin-bottom: 15px;
+    }
+    .meta { color: #555; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <select id="langSelect" onchange="changeLang()" style="padding:8px;border-radius:6px;margin-bottom:15px;">
+    <option value="en">English</option>
+    <option value="es">Español</option>
+  </select>
+
+  <div class="rating-box">
+    <h2>Website Rating</h2>
+    <div class="stars" id="starContainer"></div>
+  </div>
+
+  <div class="comment-box">
+    <h2>Write a Review</h2>
+    <textarea id="commentInput" placeholder="Write your opinion..."></textarea>
+    <button onclick="postReview()">Post Review</button>
+  </div>
+
+  <div class="reviews" id="reviewsList"></div>
+
+  <script>
+    const translations = {
+      en: {
+        rating: "Website Rating",
+        writeReview: "Write a Review",
+        placeholder: "Write your opinion...",
+        post: "Post Review"
+      },
+      es: {
+        rating: "Calificación del sitio",
+        writeReview: "Escribir una reseña",
+        placeholder: "Escribe tu opinión...",
+        post: "Publicar reseña"
+      }
+    };
+
+    function changeLang() {
+      const lang = document.getElementById('langSelect').value;
+      document.querySelector('.rating-box h2').textContent = translations[lang].rating;
+      document.querySelector('.comment-box h2').textContent = translations[lang].writeReview;
+      document.getElementById('commentInput').placeholder = translations[lang].placeholder;
+      document.querySelector('.comment-box button').textContent = translations[lang].post;
+    }
+
+    // rating stored as number 0..5 (0 means zero stars)
+    let currentRating = Number(localStorage.getItem('siteRating') || 0);
+
+    // Prompt Google name & email if not saved
+    function checkGoogleName() {
+      if (!localStorage.getItem('googleName')) {
+        const n = prompt('Enter your Google username:');
+        if (n) localStorage.setItem('googleName', n);
+      }
+      if (!localStorage.getItem('googleEmail')) {
+        const e = prompt('Enter your Google email:');
+        if (e) localStorage.setItem('googleEmail', e);
+      }
+    }
+
+    function renderStars() {
+      const container = document.getElementById('starContainer');
+      container.innerHTML = '';
+
+      // Add a 0-star option first
+      const zero = document.createElement('span');
+      zero.className = 'star-item';
+      zero.textContent = '0★';
+      zero.title = 'Zero stars';
+      zero.onclick = () => setRating(0);
+      container.appendChild(zero);
+
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('span');
+        star.className = 'star-item';
+        star.textContent = (i <= currentRating ? '★' : '☆');
+        star.title = i + ' star' + (i > 1 ? 's' : '');
+        star.onclick = () => setRating(i);
+        container.appendChild(star);
+      }
+    }
+
+    function setRating(num) {
+      currentRating = Number(num);
+      localStorage.setItem('siteRating', currentRating);
+      renderStars();
+    }
+
+    function postReview() {
+      const text = document.getElementById('commentInput').value.trim();
+      if (!text) return;
+
+      const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+      const userName = localStorage.getItem('googleName') || 'Anonymous User';
+      const userEmail = localStorage.getItem('googleEmail') || 'No Email';
+      const reviewData = { name: userName, email: userEmail, rating: currentRating, text };
+      reviews.push(reviewData);
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+      document.getElementById('commentInput').value = '';
+      loadReviews();
+    }
+
+    function loadReviews() {
+      const list = document.getElementById('reviewsList');
+      list.innerHTML = '';
+      const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+      reviews.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'review-item';
+        const ratingText = (typeof r.rating === 'number') ? (r.rating + '★') : String(r.rating) + '★';
+        div.innerHTML = `<strong>${escapeHtml(r.name)}</strong><br><span class="meta">Email: ${escapeHtml(r.email)}</span><br>Rating: ${escapeHtml(ratingText)}<br><p>${escapeHtml(r.text)}</p>`;
+        list.appendChild(div);
+      });
+    }
+
+    // Simple HTML escape to avoid injection when rendering stored data
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Initialize page
+    checkGoogleName();
+    changeLang();
+    renderStars();
+    loadReviews();
+  </script>
+
+</body>
+</html>

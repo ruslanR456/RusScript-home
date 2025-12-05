@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RusScript — Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="admin-container">
+
+  <h1>RusScript Admin</h1>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <input id="adminUser" placeholder="Username">
+    <input id="adminPass" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="panel" class="hidden">
+
+    <h2>Publish Project</h2>
+
+    <input id="projTitle" placeholder="Project Title">
+    <textarea id="projDesc" placeholder="Project Description"></textarea>
+    <input id="projLink" placeholder="Project Link (optional)">
+    
+    <button onclick="addProject()">Publish</button>
+    <p id="status"></p>
+  </div>
+
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

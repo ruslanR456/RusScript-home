@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RusScript — Home</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1 id="title">RusScript</h1>
+    <p id="subtitle">Your trusted place for custom scripts, projects and tools.</p>
+  </header>
+
+  <nav>
+    <a href="#projects" id="navProjects">Projects</a>
+    <a  id="navReviews" onclick="window.location.href='revives.html'">Reviews</a>
+    <a  id="navContact" onclick="window.location.href='Contact.html'">Contact</a>
+     <a id="navContact" onclick="window.location.href='admin.html'"> admin</a>
+    <select id="langSwitcher">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+  </nav>
+
+  <section id="projects">
+    <h2 id="projectsTitle">My Projects</h2>
+    <div class="card-container" id="projectsContainer"></div>
+  </section>
+
+  <section id="reviews">
+    <h2 id="reviewsTitle">User Reviews</h2>
+
+    <form id="reviewForm">
+      <input id="reviewName" type="text" placeholder="Your Name" required>
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Submit Review</button>
+    </form>
+
+    <div class="card-container" id="reviewContainer"></div>
+  </section>
+
+  <footer>
+    <p id="footerText">© 2025 RusScript — All Rights Reserved</p>
+  </footer>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+</head>
+<body>
+    <style>
+        body {
+            background-color: whitesmoke;
+            color: black;
+        }
+    </style>
+    <center>
+        <h1>
+            Contact RusScript
+        </h1>
+    </center>
+    <center>
+        <p>
+            You can contact us by email: 
+            <a href="mailto:rrussoto6@gmail.com">rrussoto6@gmail.com</a>
+        </p>
+    </center>
+
+    <h1>to wait...</h1>
+        <div id="game-container" style="margin-bottom: 20px;">
+            <h2>Mini Game: Click the Button!</h2>
+            <p id="score">Score: 0</p>
+            <button id="click-btn">Click Me!</button>
+        </div>
+        <script>
+            let score = 0;
+            const scoreDisplay = document.getElementById('score');
+            const clickBtn = document.getElementById('click-btn');
+
+            clickBtn.addEventListener('click', function() {
+                score++;
+                scoreDisplay.textContent = 'Score: ' + score;
+                if (score === 10) {
+                    alert('Congratulations! You reached 10 clicks!');
+                    score = 0;
+                    scoreDisplay.textContent = 'Score: ' + score;
+                }
+            });
+        </script>
+        
+    
+</body>
+</html>
