@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  color: #222;
+}
+
+header {
+  background: #234;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+nav {
+  background: #333;
+  padding: 12px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+nav select {
+  margin-left: 20px;
+  padding: 6px;
+}
+
+section {
+  padding: 40px 20px;
+}
+
+.card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 280px;
+  box-shadow: 0 0 10px #0002;
+}
+
+.subscriptions {
+  display: flex;
+  gap: 20px;
+}
+
+.plan {
+  background: white;
+  padding: 20px;
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #0003;
+}
+
+#contactForm {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 10px;
+}
+
+#contactForm input, #contactForm textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  background: #234;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #1b1b7a;
+}
+
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+}
+.links{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgb(123, 255, 123);
+ 
+  border-radius: 10px;
+}
