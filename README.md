@@ -20,5 +20,3 @@ with API'S and more
 
 
 the payment method well be in the email well send you.
-
-p
