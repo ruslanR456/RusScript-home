@@ -52,5 +52,6 @@
                 });
         };
 
-        // Example: set content dynamically
+       
+
         document.querySelector('.best-read').textContent = "put you email and name in th massage, prices area already known.";
