@@ -16,5 +16,5 @@ About:
 
 I develop website for you
 
-with ap's and more
+with API'S and more
 
