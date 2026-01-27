@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>working on Update</title>
+    <style>
+        :root {
+            --accent: #3b82f6;
+            --bg: #050505;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 700px;
+        }
+
+        .label {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 2rem 0;
+        }
+
+        .unit {
+            min-width: 80px;
+        }
+
+        .number {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            display: block;
+            line-height: 1;
+        }
+
+        .text {
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        #bar-fill {
+            position: absolute;
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 15px var(--accent);
+            transition: width 1s ease-in-out;
+        }
+
+        .footer-note {
+            color: #444;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <span class="label">Major Infrastructure Update</span>
+    <h1 style="font-weight: 300; margin: 0;">Offline for Maintenance</h1>
+    
+    <div class="countdown-wrapper">
+        <div class="unit"><span class="number" id="days">00</span><span class="text">Days</span></div>
+        <div class="unit"><span class="number" id="hours">00</span><span class="text">Hours</span></div>
+        <div class="unit"><span class="number" id="mins">00</span><span class="text">Mins</span></div>
+        <div class="unit"><span class="number" id="secs">00</span><span class="text">Secs</span></div>
+    </div>
+
+    <div class="bar-bg">
+        <div id="bar-fill"></div>
+    </div>
+
+    <p class="footer-note">System deployment synchronized to UTC. Remaining time is calculated based on your local clock.</p>
+</div>
+
+<script>
+    // THE CONFIGURATION
+    // Set this to your actual "Go Live" date
+    const deadline = new Date("February 3, 2026 10:57:56").getTime();
+    // Setting the start date to calculate the % of the progress bar (Today)
+    const startDate = new Date("January 27, 2026 10:57:56").getTime();
+
+    function updateTimer() {
+        const now = new Date().getTime();
+        const t = deadline - now;
+
+        if (t >= 0) {
+            // Math for time units
+            const d = Math.floor(t / (1000 * 60 * 60 * 24));
+            const h = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((t % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = d;
+            document.getElementById("hours").innerHTML = ("0" + h).slice(-2);
+            document.getElementById("mins").innerHTML = ("0" + m).slice(-2);
+            document.getElementById("secs").innerHTML = ("0" + s).slice(-2);
+
+            // Progress bar logic
+            const totalDuration = deadline - startDate;
+            const elapsed = now - startDate;
+            const percent = (elapsed / totalDuration) * 100;
+            document.getElementById("bar-fill").style.width = Math.max(0, Math.min(percent, 100)) + "%";
+            
+        } else {
+            // What happens when time is up
+            document.querySelector(".container").innerHTML = "<h1>SYSTEMS ONLINE</h1><p>The update is complete.</p>";
+        }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+</script>
+
+</body>
+</html>
