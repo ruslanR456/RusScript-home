@@ -54,4 +54,5 @@
 
        
 
-        document.querySelector('.best-read').textContent = "put you email and name in th massage, prices area already known.";
+        document.querySelector('.best-read').textContent = "put you email and name in the massage, prices area already known.";
+
